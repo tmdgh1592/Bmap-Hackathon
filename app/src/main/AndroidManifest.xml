@@ -4,6 +4,7 @@
     package="com.app.hackathon.bmap">
 
     <application
+        android:name=".BMapApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
