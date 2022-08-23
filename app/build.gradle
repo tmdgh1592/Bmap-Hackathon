@@ -5,6 +5,9 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 32
 
@@ -16,6 +19,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "naver_map_client_id", properties["naver_map_client_id"]
     }
 
     buildTypes {
