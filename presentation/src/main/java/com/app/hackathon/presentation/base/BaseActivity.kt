@@ -10,7 +10,8 @@ import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
 
-    private lateinit var binding: T
+    lateinit var binding: T
+        private set
 
     abstract val layoutResId: Int
     abstract fun initActivity()
