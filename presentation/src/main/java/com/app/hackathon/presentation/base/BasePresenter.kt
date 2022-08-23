@@ -1,8 +1,7 @@
 package com.app.hackathon.presentation.base
 
 abstract class BasePresenter: IBaseContract.IBasePresenter<BaseView> {
-    protected var view: BaseView? = null
-        private set
+    private var view: BaseView? = null
 
     override fun onAttach(view: BaseView) {
         this.view = view
