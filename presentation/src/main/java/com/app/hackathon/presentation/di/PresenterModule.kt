@@ -1,5 +1,6 @@
 package com.app.hackathon.presentation.di
 
+import com.app.hackathon.presentation.presenter.MapContract
 import com.app.hackathon.presentation.presenter.MapPresenter
 import dagger.Module
 import dagger.Provides
@@ -11,7 +12,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 object PresenterModule {
 
     @Provides
-    fun provideMapPresenter(): MapPresenter {
+    fun provideMapPresenter(): MapContract.Presenter<MapContract.View> {
         return MapPresenter()
     }
 

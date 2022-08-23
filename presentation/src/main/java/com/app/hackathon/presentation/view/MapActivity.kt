@@ -4,8 +4,11 @@ import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityMapBinding
 import com.app.hackathon.presentation.presenter.MapContract
+import com.naver.maps.map.NaverMapSdk
+import com.naver.maps.map.NaverMapSdk.NaverCloudPlatformClient
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MapActivity(override val layoutResId: Int = R.layout.activity_map) :

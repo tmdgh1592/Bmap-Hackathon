@@ -5,6 +5,9 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 32
 
@@ -15,6 +18,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "naver_map_client_id", properties["naver_map_client_id"]
     }
 
     buildTypes {
@@ -80,13 +85,11 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     // 네이버 지도 SDK
-    implementation('com.naver.maps:map-sdk:3.15.0') {
-        exclude group: 'com.android.support'
-    }
+    implementation('com.naver.maps:map-sdk:3.15.0')
 
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     // (see https://github.com/ReactiveX/RxJava/releases for latest 3.x.x version)
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.6'
 }

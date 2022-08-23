@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.app.hackathon.presentation" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.hackathon.presentation">
+
+    <application>
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="@string/naver_map_client_id" />
+    </application>
+
+</manifest>
