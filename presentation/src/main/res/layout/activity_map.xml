@@ -116,7 +116,7 @@
                                 android:paddingEnd="50dp"
                                 android:singleLine="true"
                                 android:textColor="@color/primaryTextColor"
-                                android:textColorHighlight="#FFE146"
+                                android:textColorHighlight="#3182F6"
                                 android:textColorHint="#6B7684"
                                 android:textCursorDrawable="@drawable/cursor_edit_text"
                                 app:layout_constraintTop_toTopOf="parent" />
