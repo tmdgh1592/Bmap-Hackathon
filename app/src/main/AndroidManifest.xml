@@ -28,6 +28,10 @@
         <activity
             android:name="com.app.hackathon.presentation.view.search.VoiceSearchActivity"
             android:exported="false" />
+
+        <activity
+            android:name="com.app.hackathon.presentation.view.search.TextSearchActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

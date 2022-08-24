@@ -15,6 +15,7 @@ import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityMapBinding
 import com.app.hackathon.presentation.presenter.MapContract
 import com.app.hackathon.presentation.presenter.MapPresenter
+import com.app.hackathon.presentation.view.search.TextSearchActivity
 import com.app.hackathon.presentation.view.search.VoiceSearchActivity
 import com.app.hackathon.presentation.widget.Constants
 import com.app.hackathon.presentation.widget.extensions.checkLocationPermission
@@ -89,6 +90,16 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                     Intent(
                         this@MapActivity,
                         VoiceSearchActivity::class.java
+                    )
+                )
+            }
+
+            // 텍스트 검색
+            searchEditText.setOnClickListener {
+                activityLauncher.launch(
+                    Intent(
+                        this@MapActivity,
+                        TextSearchActivity::class.java
                     )
                 )
             }
