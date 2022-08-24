@@ -1,16 +1,21 @@
 package com.app.hackathon.presentation.view.map
 
 import android.Manifest
+import android.content.Intent
 import android.location.Location
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.UiThread
 import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityMapBinding
 import com.app.hackathon.presentation.presenter.MapContract
 import com.app.hackathon.presentation.presenter.MapPresenter
+import com.app.hackathon.presentation.view.search.VoiceSearchActivity
 import com.app.hackathon.presentation.widget.Constants
 import com.app.hackathon.presentation.widget.extensions.checkLocationPermission
 import com.app.hackathon.presentation.widget.extensions.loadImage
@@ -36,6 +41,7 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationSource: FusedLocationSource
     private lateinit var mNaverMap: NaverMap
+    private lateinit var activityLauncher: ActivityResultLauncher<Intent>
 
     companion object {
         val TAG = MapActivity::class.simpleName
@@ -49,8 +55,10 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
         binding.innerContainer.setPadding(0, statusBarHeight(), 0, 0)
         presenter.onAttach(this)
 
+        setActivityResultLauncher() // 액티비티 런처 설정
         setScrollTopDetection() // 스크롤뷰 스크롤 설정
         setMap() // 맵 관련 함수 설정
+        setClickListener() // 클릭 리스너 설정
     }
 
     override fun onDestroy() {
@@ -58,6 +66,30 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
         presenter.onDetach()
     }
 
+
+    private fun setActivityResultLauncher() {
+        activityLauncher = registerForActivityResult(
+            StartActivityForResult()
+        ) { result: ActivityResult ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+                // RESULT_OK일 때 실행할 코드...
+            }
+        }
+    }
+
+    private fun setClickListener() {
+        with(binding) {
+            searchVoiceBtn.setOnClickListener {
+                activityLauncher.launch(
+                    Intent(
+                        this@MapActivity,
+                        VoiceSearchActivity::class.java
+                    )
+                )
+            }
+        }
+    }
 
     // 네이버맵 관련 설정 함수들
     private fun setMap() {

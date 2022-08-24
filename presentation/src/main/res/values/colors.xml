@@ -14,4 +14,5 @@
     <color name="fifthTextColor">#6B7684</color>
     <color name="gray50">#BCBCBE</color>
     <color name="bgPrimaryColor">#E6E6E7</color>
+    <color name="borderGray">#D4D4D9</color>
 </resources>
