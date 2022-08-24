@@ -20,10 +20,22 @@ class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voic
 
     override fun initActivity() {
         // 상태바 투명화
+        setScreen()
+        // 음성 인식 설정
+        setRecognizer()
+        setClickListener()
+    }
+
+    private fun setScreen() {
         setStatusBarTransparent()
         // 상태 바, 네비게이션 높이 만큼 padding 주기
         binding.root.setPadding(0, statusBarHeight(), 0, 0)
-        setRecognizer()
+    }
+
+    private fun setClickListener() {
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
     }
 
     // 음성인식 설정

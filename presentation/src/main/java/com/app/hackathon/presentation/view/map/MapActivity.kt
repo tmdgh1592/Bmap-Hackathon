@@ -50,15 +50,19 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
 
     override fun initActivity() {
         // 상태바 투명화
-        setStatusBarTransparent()
-        // 상태 바, 네비게이션 높이 만큼 padding 주기
-        binding.innerContainer.setPadding(0, statusBarHeight(), 0, 0)
+        setScreen()
         presenter.onAttach(this)
 
         setActivityResultLauncher() // 액티비티 런처 설정
         setScrollTopDetection() // 스크롤뷰 스크롤 설정
         setMap() // 맵 관련 함수 설정
         setClickListener() // 클릭 리스너 설정
+    }
+
+    private fun setScreen() {
+        setStatusBarTransparent()
+        // 상태 바, 네비게이션 높이 만큼 padding 주기
+        binding.innerContainer.setPadding(0, statusBarHeight(), 0, 0)
     }
 
     override fun onDestroy() {
