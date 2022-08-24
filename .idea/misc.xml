@@ -5,7 +5,22 @@
       <map>
         <entry key="..\:/android_practice/Bmap/data/src/main/res/drawable/ic_launcher_background.xml" value="0.1775" />
         <entry key="..\:/android_practice/Bmap/data/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1775" />
-        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/activity_map.xml" value="0.234375" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable-v24/ripple_white.xml" value="0.186" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_favorite_lot_item.xml" value="0.186" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_search_edit_text.xml" value="0.186" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/cursor_edit_text.xml" value="0.17" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_bottom_sheet_top_decoration.xml" value="0.186" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_company.xml" value="0.1655" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_plus.xml" value="0.1655" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/img_city.xml" value="0.1655" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/img_normal_lot.xml" value="0.1655" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/img_transparent.xml" value="0.17" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/img_unchecked_locator.xml" value="0.1655" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ripple_white.xml" value="0.186" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/shadow_top.xml" value="0.1655" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/font/font_family.xml" value="0.34444444444444444" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/activity_map.xml" value="0.2" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_favorite_lot.xml" value="0.25" />
       </map>
     </option>
   </component>

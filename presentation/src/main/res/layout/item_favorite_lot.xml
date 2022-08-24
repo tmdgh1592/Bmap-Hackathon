@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_lot_container"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/bg_favorite_lot_item">
+
+    <TextView
+        android:id="@+id/lot_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:text="자주 가는 장소"
+        android:textColor="@color/fifthTextColor"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/lot_name_tv"-->
+<!--        tools:text="우영아파트주차장"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:fontFamily="@font/pretendard_semi_bold"-->
+<!--        android:textColor="@color/gray50"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/lot_title_tv"-->
+<!--        app:layout_constraintLeft_toRightOf="@+id/lot_title_tv"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/lot_title_tv" />-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:text="추가하기"
+        android:textColor="@color/primaryTextColor"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_btn"
+        app:layout_constraintRight_toLeftOf="@+id/add_btn"
+        app:layout_constraintTop_toTopOf="@+id/add_btn" />
+
+    <ImageView
+        android:id="@+id/add_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="17.5dp"
+        android:layout_marginBottom="17.5dp"
+        android:background="@drawable/ripple_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_plus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/favorite_icon_iv"
+        android:layout_width="16.5dp"
+        android:layout_height="15.8dp"
+        android:layout_margin="19dp"
+        android:src="@drawable/ic_favorite"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/home_lot_container"
+        app:layout_constraintRight_toRightOf="@+id/home_lot_container" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
