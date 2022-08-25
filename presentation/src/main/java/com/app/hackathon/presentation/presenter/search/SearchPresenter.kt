@@ -32,10 +32,6 @@ class SearchPresenter @Inject constructor(
 
     private val querySubject: PublishSubject<String> = PublishSubject.create()
 
-    init {
-        setQuerySubject()
-    }
-
 
     override fun onAttach(view: SearchContract.View) {
         this.view = view
@@ -126,7 +122,7 @@ class SearchPresenter @Inject constructor(
 
 
     // 쿼리 Subject 를 설정한다.
-    private fun setQuerySubject() {
+    fun setQuerySubject() {
         disposables.add(querySubject.debounce(300, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

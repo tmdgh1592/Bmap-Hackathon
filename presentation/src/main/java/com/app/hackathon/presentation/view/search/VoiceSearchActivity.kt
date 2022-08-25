@@ -11,6 +11,7 @@ import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityVoiceSearchBinding
 import com.app.hackathon.presentation.view.map.MapActivity
+import com.app.hackathon.presentation.widget.Constants
 import com.app.hackathon.presentation.widget.Constants.VOICE_QUERY
 import com.app.hackathon.presentation.widget.extensions.checkRecordAudioPermission
 import com.app.hackathon.presentation.widget.extensions.setStatusBarTransparent
@@ -20,16 +21,24 @@ import com.gun0912.tedpermission.rx3.TedPermission
 class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voice_search) :
     BaseActivity<ActivityVoiceSearchBinding>() {
 
-    var mRecognizer: SpeechRecognizer? = null
-
+    private var mRecognizer: SpeechRecognizer? = null
+    private var currentLat: Double = 0.0
+    private var currentLng: Double = 0.0
 
     override fun initActivity() {
         // 상태바 투명화
         setScreen()
+        // 위도 경도 설정
+        setLngLng()
         // 음성 인식 설정
         requestPermissions()
         setRecognizer()
         setClickListener()
+    }
+
+    private fun setLngLng() {
+        currentLat = intent.getDoubleExtra(Constants.LATITUDE, 0.0)
+        currentLng = intent.getDoubleExtra(Constants.LONGITUDE, 0.0)
     }
 
     // 음성 녹음 권한 요청
@@ -98,8 +107,9 @@ class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voic
 
             // 에러 발생
             override fun onError(error: Int) {
+                Log.d("VoiceSearchActivity", "onError: 음성 녹음 에러로 인한 재실행")
                 mRecognizer?.cancel()
-                //startRecognizing()
+                startRecognizing()
             }
 
             // 인식 결과가 준비되면 호출됨
@@ -112,6 +122,8 @@ class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voic
                         this@VoiceSearchActivity,
                         TextSearchActivity::class.java
                     ).putExtra(VOICE_QUERY, matches?.get(0))
+                        .putExtra(Constants.LATITUDE, currentLat)
+                        .putExtra(Constants.LONGITUDE, currentLng)
                 )
                 finish()
             }
@@ -134,5 +146,11 @@ class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voic
                 packageName
             ).putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR") // 한국어 설정
         )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mRecognizer?.cancel()
+        mRecognizer?.destroy()
     }
 }

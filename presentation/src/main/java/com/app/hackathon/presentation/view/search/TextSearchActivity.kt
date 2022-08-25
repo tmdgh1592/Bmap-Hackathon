@@ -43,6 +43,7 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
             intent.getDoubleExtra(LONGITUDE, 0.0)
         )
         presenter.requestSearchHistory()
+        presenter.setQuerySubject()
 
         setClickListener() // 클릭 리스너 설정
         initView() // 뷰 설정
