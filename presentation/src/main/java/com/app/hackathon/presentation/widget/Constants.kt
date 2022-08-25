@@ -5,5 +5,5 @@ object Constants {
     const val LOCATION_PERMISSION_REQUEST_CODE = 1000
 
     // Intent Bundle key
-    const val VOICE_QUERY = "voice_query"
+    const val SEARCH_QUERY = "voice_query"
 }

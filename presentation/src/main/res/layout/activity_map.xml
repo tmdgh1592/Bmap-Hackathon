@@ -255,7 +255,7 @@
                                     android:layout_width="13.3dp"
                                     android:layout_height="15.5dp"
                                     android:layout_margin="19dp"
-                                    android:src="@drawable/ic_home_lot"
+                                    android:src="@drawable/ic_home"
                                     android:visibility="gone"
                                     app:layout_constraintBottom_toBottomOf="@+id/home_lot_container"
                                     app:layout_constraintRight_toRightOf="@+id/home_lot_container" />
@@ -346,11 +346,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="20dp"
                                 android:layout_marginTop="10dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 app:layout_constraintLeft_toLeftOf="@+id/favorite_lot_container"
                                 app:layout_constraintRight_toRightOf="@+id/favorite_lot_container"
                                 app:layout_constraintTop_toBottomOf="@+id/company_lot_container"
                                 tools:itemCount="0"
-                                tools:listitem="@layout/item_favorite_lot" />
+                                tools:listitem="@layout/item_map_favorite_lot" />
 
 
                             <!-- 자주 가는 장소 추가하기 -->

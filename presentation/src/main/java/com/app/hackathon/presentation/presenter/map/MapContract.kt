@@ -1,4 +1,4 @@
-package com.app.hackathon.presentation.presenter
+package com.app.hackathon.presentation.presenter.map
 
 import com.app.hackathon.presentation.base.BaseContract
 
