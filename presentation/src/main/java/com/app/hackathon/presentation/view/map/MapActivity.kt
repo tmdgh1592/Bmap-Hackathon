@@ -297,12 +297,16 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
             }
 
 
-            // 카메라 현재위치로 이동
-            val cameraUpdate = CameraUpdate.scrollTo(
-                LatLng(currentLat, currentLng)
-            )
-            mNaverMap.moveCamera(cameraUpdate)
+            moveCamera(currentLat, currentLng)
         }
+    }
+
+    private fun moveCamera(currentLat: Double, currentLng: Double) {
+        // 카메라 현재위치로 이동
+        val cameraUpdate = CameraUpdate.scrollTo(
+            LatLng(currentLat, currentLng)
+        )
+        mNaverMap.moveCamera(cameraUpdate)
     }
 
     private fun setTrackingMode(naverMap: NaverMap) {
@@ -341,7 +345,7 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
         }
     }
 
-    fun setUpdateLocationListener() {
+    private fun setUpdateLocationListener() {
         val locationRequest = LocationRequest.create()
         locationRequest.run {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY //높은 정확도

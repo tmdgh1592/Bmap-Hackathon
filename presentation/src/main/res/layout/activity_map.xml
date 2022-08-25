@@ -25,7 +25,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/inner_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:background="@color/white">
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/locator_barrier"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:barrierDirection="top"
+                app:constraint_referenced_ids="bottom_container, search_result_container" />
+
 
             <ImageView
                 android:id="@+id/locator_btn"
@@ -35,7 +44,7 @@
                 android:layout_marginBottom="8dp"
                 android:elevation="10dp"
                 android:src="@drawable/img_inactive_locator"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_container"
+                app:layout_constraintBottom_toTopOf="@+id/locator_barrier"
                 app:layout_constraintRight_toRightOf="parent" />
 
             <View
@@ -427,7 +436,13 @@
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
+
+            <include
+                android:id="@+id/search_result_container"
+                layout="@layout/layout_search_result_bottom_sheet"
+                android:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="42dp"
+    android:layout_marginStart="10dp"
+    android:clipToPadding="false"
+    app:cardBackgroundColor="#FFE146"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="100dp">
+
+    <TextView
+        android:id="@+id/option_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/secondaryTextColor"
+        android:textSize="18sp"
+        android:fontFamily="@font/pretendard_medium"
+        android:layout_gravity="center"
+        tools:text="엘리베이터" />
+</androidx.cardview.widget.CardView>
+

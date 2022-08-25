@@ -6,14 +6,19 @@
         <entry key="..\:/android_practice/Bmap/data/src/main/res/drawable/ic_launcher_background.xml" value="0.1775" />
         <entry key="..\:/android_practice/Bmap/data/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1775" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable-v24/ripple_white.xml" value="0.186" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_bottom_sheet_date_time_selector.xml" value="0.1775" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_favorite_lot.xml" value="0.1815" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_favorite_lot_item.xml" value="0.186" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_search_edit_text.xml" value="0.186" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_search_result_bottom_sheet.xml" value="0.1775" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_search_result_edit_text.xml" value="0.1775" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/bg_select_btn.xml" value="0.1775" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/cursor_edit_text.xml" value="0.17" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_bottom_sheet_top_decoration.xml" value="0.186" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_company.xml" value="0.1655" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_home_lot.xml" value="0.1815" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_plus.xml" value="0.1655" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/ic_search_result_bottom_sheet_top_decoration.xml" value="0.1775" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/img_city.xml" value="0.1655" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/img_normal_lot.xml" value="0.1655" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/drawable/img_transparent.xml" value="0.17" />
@@ -26,9 +31,11 @@
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/activity_text_search.xml" value="0.33" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/activity_voice_search.xml" value="0.33" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_favorite_lot.xml" value="0.25" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_filter_option.xml" value="0.3651041666666667" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_search_favorite_lot.xml" value="0.3651041666666667" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_search_history.xml" value="0.3640625" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_search_lot.xml" value="0.33" />
+        <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/layout_search_result_bottom_sheet.xml" value="0.25" />
       </map>
     </option>
   </component>
