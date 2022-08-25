@@ -1,6 +1,8 @@
 package com.app.hackathon.presentation.di
 
+import com.app.hackathon.domain.usecase.AddSearchHistoryUseCase
 import com.app.hackathon.domain.usecase.GetSearchHistoryUseCase
+import com.app.hackathon.domain.usecase.RemoveSearchHistoryUseCase
 import com.app.hackathon.presentation.presenter.map.MapPresenter
 import com.app.hackathon.presentation.presenter.search.SearchPresenter
 import dagger.Module
@@ -18,8 +20,17 @@ object PresenterModule {
     }
 
     @Provides
-    fun provideSearchPresenter(getSearchHistoryUseCase: GetSearchHistoryUseCase): SearchPresenter {
-        return SearchPresenter(getSearchHistoryUseCase)
+    fun provideSearchPresenter(
+        getSearchHistoryUseCase: GetSearchHistoryUseCase,
+        addSearchHistoryUseCase: AddSearchHistoryUseCase,
+        removeSearchHistoryUseCase: RemoveSearchHistoryUseCase
+    ): SearchPresenter {
+
+        return SearchPresenter(
+            getSearchHistoryUseCase,
+            addSearchHistoryUseCase,
+            removeSearchHistoryUseCase
+        )
     }
 
 }

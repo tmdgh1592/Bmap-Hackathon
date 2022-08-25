@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    def room_version = "2.4.3"
 
     implementation project(path: ':domain')
 
@@ -48,8 +49,10 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.38.1"
 
     // Room
-    implementation 'androidx.room:room-runtime:2.4.3'
-    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+    implementation "androidx.room:room-runtime:$room_version"
+//    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+    implementation("androidx.room:room-rxjava3:$room_version")
+    kapt "androidx.room:room-compiler:$room_version"
 
     //gson
     implementation 'com.google.code.gson:gson:2.8.9'

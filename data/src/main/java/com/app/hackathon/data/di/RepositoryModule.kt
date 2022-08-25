@@ -1,5 +1,6 @@
 package com.app.hackathon.data.di
 
+import com.app.hackathon.data.repository.SearchHistoryRepositoryImpl
 import com.app.hackathon.domain.repository.SearchHistoryRepository
 import dagger.Binds
 import dagger.Module
@@ -13,6 +14,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindSearchHistoryRepository(): SearchHistoryRepository
+    abstract fun bindSearchHistoryRepository(searchHistoryRepository: SearchHistoryRepositoryImpl): SearchHistoryRepository
 
 }

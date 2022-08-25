@@ -197,7 +197,7 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
     // 아래로 스크롤시 구분선을 보여줌
     private fun setScrollTopDetection() {
         with(binding) {
-            searchScrollView.setOnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
+            searchScrollView.setOnScrollChangeListener { view, _, _, _, _ ->
                 if (!view.canScrollVertically(-1)) {
                     dividerView.visibility = View.GONE
                 } else {
@@ -343,7 +343,7 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
 
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                for ((idx, location) in locationResult.locations.withIndex()) {
+                for ((_, location) in locationResult.locations.withIndex()) {
                     Log.d("location: ", "${location.latitude}, ${location.longitude}")
                     presenter.updateCurrentLocation(location)
                 }

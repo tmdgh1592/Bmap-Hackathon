@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/favorite_add_btn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="12dp"
-    android:background="@drawable/bg_favorite_lot"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:clickable="true"
-    android:focusable="true"
-    android:paddingHorizontal="20dp"
-    android:paddingVertical="11dp"
-    app:layout_constraintBottom_toBottomOf="@+id/favorite_home_btn"
-    app:layout_constraintLeft_toRightOf="@+id/favorite_lot_rv"
-    app:layout_constraintTop_toTopOf="@+id/favorite_home_btn">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:layout_width="19dp"
-        android:layout_height="19dp"
-        android:src="@drawable/ic_favorite" />
+    <data>
 
-    <TextView
+    </data>
+
+    <LinearLayout
+        android:id="@+id/favorite_add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/pretendard_medium"
-        tools:text="장소명"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="18sp" />
+        android:layout_marginStart="12dp"
+        android:background="@drawable/bg_favorite_lot"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/favorite_home_btn"
+        app:layout_constraintLeft_toRightOf="@+id/favorite_lot_rv"
+        app:layout_constraintTop_toTopOf="@+id/favorite_home_btn">
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/ic_favorite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/pretendard_medium"
+            tools:text="장소명"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</layout>

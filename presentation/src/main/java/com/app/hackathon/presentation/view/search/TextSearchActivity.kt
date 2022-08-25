@@ -3,14 +3,14 @@ package com.app.hackathon.presentation.view.search
 import android.content.Intent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.app.hackathon.domain.model.SearchHistory
+import com.app.hackathon.domain.entity.SearchHistoryEntity
 import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityTextSearchBinding
-import com.app.hackathon.presentation.presenter.map.MapPresenter
 import com.app.hackathon.presentation.presenter.search.SearchContract
 import com.app.hackathon.presentation.presenter.search.SearchPresenter
 import com.app.hackathon.presentation.widget.Constants.SEARCH_QUERY
+import com.app.hackathon.presentation.widget.adapter.HistoryAdapter
 import com.app.hackathon.presentation.widget.extensions.setStatusBarTransparent
 import com.app.hackathon.presentation.widget.extensions.statusBarHeight
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +22,7 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
 
     @Inject
     lateinit var presenter: SearchPresenter
+    lateinit var historyAdapter: HistoryAdapter
 
     override fun initActivity() {
         // 상태바 투명화
@@ -37,20 +38,39 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
 
     private fun initView() {
         with(binding) {
-            searchEditText.setOnEditorActionListener { textView, actionId, keyEvent ->
-                var isHandled = false
-                val searchText = searchEditText.text.toString()
+            // 검색 에딧텍스트 설정
+            setSearchEditText()
 
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    isHandled = true
+            // 검색 히스토리 리사이클러뷰 어댑터 설정
+            setHistoryRvAdapter()
+        }
+    }
 
-                    val resultIntent = Intent().putExtra(SEARCH_QUERY, searchText)
-                    setResult(RESULT_OK, resultIntent)
-                    finish()
-                }
-
-                return@setOnEditorActionListener isHandled
+    private fun ActivityTextSearchBinding.setHistoryRvAdapter() {
+        historyAdapter = HistoryAdapter(mutableListOf(), object : HistoryAdapter.OnClickListener {
+            override fun onClickItem(item: SearchHistoryEntity) {
+                finishWithResult(item.lotName)
             }
+
+            override fun onDelete(item: SearchHistoryEntity) {
+                presenter.requestRemoveHistory(item)
+            }
+        })
+        historyRv.adapter = historyAdapter
+        presenter.requestSearchHistory() // 검색 히스토리 데이터 요청
+    }
+
+    private fun ActivityTextSearchBinding.setSearchEditText() {
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            var isHandled = false
+            val searchText = searchEditText.text.toString()
+
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                isHandled = true
+                presenter.requestSaveHistory(searchText)
+            }
+
+            return@setOnEditorActionListener isHandled
         }
     }
 
@@ -77,7 +97,23 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
     }
 
 
-    override fun showSearchHistory(searchHistoryList: List<SearchHistory>) {
-
+    override fun showSearchHistory(searchHistoryList: List<SearchHistoryEntity>) {
+        historyAdapter.updateData(searchHistoryList)
     }
+
+    override fun removeSearchHistory(searchHistoryEntity: SearchHistoryEntity) {
+        historyAdapter.removeData(searchHistoryEntity)
+    }
+
+    override fun finishWithResult(lotName: String) {
+        val resultIntent = Intent().putExtra(SEARCH_QUERY, lotName)
+        setResult(RESULT_OK, resultIntent)
+        finish()
+    }
+
+    override fun justFinish() {
+        finish()
+    }
+
+
 }
