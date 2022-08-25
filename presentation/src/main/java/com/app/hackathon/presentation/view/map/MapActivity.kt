@@ -13,8 +13,8 @@ import androidx.annotation.UiThread
 import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityMapBinding
-import com.app.hackathon.presentation.presenter.MapContract
-import com.app.hackathon.presentation.presenter.MapPresenter
+import com.app.hackathon.presentation.presenter.map.MapContract
+import com.app.hackathon.presentation.presenter.map.MapPresenter
 import com.app.hackathon.presentation.view.search.TextSearchActivity
 import com.app.hackathon.presentation.view.search.VoiceSearchActivity
 import com.app.hackathon.presentation.widget.Constants
@@ -79,8 +79,17 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
             if (result.resultCode == RESULT_OK) {
                 val data = result.data
                 // RESULT_OK일 때 실행할 코드...
+                
+                val searchResult: String = data?.getStringExtra(Constants.SEARCH_QUERY)!!
+                Log.d(TAG, "setActivityResultLauncher: $searchResult")
+
+                updateSearchResult(searchResult) // 검색 결과를 EditText에 입력
             }
         }
+    }
+
+    private fun updateSearchResult(searchResult: String) {
+        binding.searchEditText.setText(searchResult)
     }
 
     private fun setClickListener() {

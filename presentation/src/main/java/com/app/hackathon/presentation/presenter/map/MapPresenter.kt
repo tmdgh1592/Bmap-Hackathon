@@ -1,4 +1,4 @@
-package com.app.hackathon.presentation.presenter
+package com.app.hackathon.presentation.presenter.map
 
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +23,7 @@ class MapPresenter: MapContract.Presenter<MapContract.View> {
 
     override fun onDetach() {
         view = null
+        disposables.clear()
     }
 
     fun setMapMode(newMapMode: MapMode) {

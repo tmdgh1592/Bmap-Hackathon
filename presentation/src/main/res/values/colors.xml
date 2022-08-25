@@ -12,6 +12,7 @@
     <color name="thirdTextColor">#4E5968</color>
     <color name="fourthTextColor">#505967</color>
     <color name="fifthTextColor">#6B7684</color>
+    <color name="gray30">#DADADA</color>
     <color name="gray50">#BCBCBE</color>
     <color name="bgPrimaryColor">#E6E6E7</color>
     <color name="borderGray">#D4D4D9</color>

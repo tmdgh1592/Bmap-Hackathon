@@ -8,7 +8,7 @@ import android.speech.SpeechRecognizer
 import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityVoiceSearchBinding
-import com.app.hackathon.presentation.widget.Constants.VOICE_QUERY
+import com.app.hackathon.presentation.widget.Constants.SEARCH_QUERY
 import com.app.hackathon.presentation.widget.extensions.setStatusBarTransparent
 import com.app.hackathon.presentation.widget.extensions.statusBarHeight
 
@@ -89,7 +89,7 @@ class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voic
 
                 // 인식된 음성을 전달하며 액티비티 종료
                 setResult(RESULT_OK, Intent().apply {
-                    putExtra(VOICE_QUERY, matches?.get(0))
+                    putExtra(SEARCH_QUERY, matches?.get(0))
                 })
                 finish()
             }
