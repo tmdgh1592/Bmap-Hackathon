@@ -6,8 +6,8 @@ import com.app.hackathon.domain.entity.SearchHistoryEntity
 object SearchHistoryMapper : Mapper<SearchHistory, SearchHistoryEntity> {
 
     override fun SearchHistoryEntity.mapFromDomainModel(): SearchHistory =
-        SearchHistory(id, lotName)
+        SearchHistory(id, lotName, newAddr, latitude, longitude)
 
     override fun SearchHistory.mapToDomainModel(): SearchHistoryEntity =
-        SearchHistoryEntity(id, lotName)
+        SearchHistoryEntity(lotName, newAddr, latitude, longitude)
 }

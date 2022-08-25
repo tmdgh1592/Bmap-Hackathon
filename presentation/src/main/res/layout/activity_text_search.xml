@@ -38,6 +38,7 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:hint="어디에 주차하시나요?"
                 android:imeOptions="actionSearch"
+                android:maxLength="16"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/secondaryTextColor"
@@ -197,6 +198,52 @@
             app:layout_constraintTop_toBottomOf="@+id/divider"
             tools:listitem="@layout/item_search_history" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parking_lot_result_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider">
+
+            <TextView
+                android:id="@+id/search_query_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="동작구" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="4dp"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="검색 결과 입니다."
+                android:textColor="@color/secondaryTextColor"
+                app:layout_constraintBottom_toBottomOf="@+id/search_query_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/search_query_tv"
+                app:layout_constraintTop_toTopOf="@+id/search_query_tv" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/parking_lot_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="30dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/search_query_tv"
+                tools:listitem="@layout/item_search_lot" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <ProgressBar
             android:id="@+id/loading_bar"
             android:layout_width="60dp"
@@ -208,7 +255,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/history_rv"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

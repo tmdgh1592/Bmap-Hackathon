@@ -1,7 +1,9 @@
 package com.app.hackathon.domain.di
 
+import com.app.hackathon.domain.repository.ParkingLotRepository
 import com.app.hackathon.domain.repository.SearchHistoryRepository
 import com.app.hackathon.domain.usecase.AddSearchHistoryUseCase
+import com.app.hackathon.domain.usecase.GetParkingLotUseCase
 import com.app.hackathon.domain.usecase.GetSearchHistoryUseCase
 import com.app.hackathon.domain.usecase.RemoveSearchHistoryUseCase
 import dagger.Module
@@ -30,6 +32,12 @@ object UseCaseModule {
     @Singleton
     fun provideRemoveSearchHistoryUseCase(repository: SearchHistoryRepository): RemoveSearchHistoryUseCase {
         return RemoveSearchHistoryUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetParkingLotUseCase(repository: ParkingLotRepository): GetParkingLotUseCase {
+        return GetParkingLotUseCase(repository)
     }
 
 }

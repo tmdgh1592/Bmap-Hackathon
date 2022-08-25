@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.UiThread
+import com.app.hackathon.domain.entity.LotEntity
 import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityMapBinding
@@ -18,6 +19,8 @@ import com.app.hackathon.presentation.presenter.map.MapPresenter
 import com.app.hackathon.presentation.view.search.TextSearchActivity
 import com.app.hackathon.presentation.view.search.VoiceSearchActivity
 import com.app.hackathon.presentation.widget.Constants
+import com.app.hackathon.presentation.widget.Constants.LATITUDE
+import com.app.hackathon.presentation.widget.Constants.LONGITUDE
 import com.app.hackathon.presentation.widget.extensions.checkLocationPermission
 import com.app.hackathon.presentation.widget.extensions.loadImage
 import com.app.hackathon.presentation.widget.extensions.setStatusBarTransparent
@@ -79,11 +82,12 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
             if (result.resultCode == RESULT_OK) {
                 val data = result.data
                 // RESULT_OK일 때 실행할 코드...
-                
-                val searchResult: String = data?.getStringExtra(Constants.SEARCH_QUERY)!!
+
+                val searchResult: LotEntity =
+                    data?.getStringExtra(Constants.SEARCH_RESULT) as LotEntity
                 Log.d(TAG, "setActivityResultLauncher: $searchResult")
 
-                updateSearchResult(searchResult) // 검색 결과를 EditText에 입력
+                updateSearchResult(searchResult.parkName) // 검색 결과를 EditText에 입력
             }
         }
     }
@@ -110,6 +114,8 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                         this@MapActivity,
                         TextSearchActivity::class.java
                     )
+                        .putExtra(LATITUDE, presenter.currentLat)
+                        .putExtra(LONGITUDE, presenter.currentLng)
                 )
             }
         }
@@ -162,6 +168,7 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                     val cameraUpdate = CameraUpdate.scrollTo(
                         LatLng(presenter.currentLat, presenter.currentLng)
                     ).animate(CameraAnimation.Linear)
+
                     mNaverMap.moveCamera(cameraUpdate) // 현재 위치로 이동
                     mNaverMap.locationTrackingMode = LocationTrackingMode.NoFollow
 

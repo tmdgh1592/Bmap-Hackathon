@@ -9,6 +9,8 @@ import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowCompat
+import com.app.hackathon.domain.entity.LotEntity
+import com.app.hackathon.domain.entity.SearchHistoryEntity
 import com.bumptech.glide.Glide
 
 fun Activity.setStatusBarTransparent() {
@@ -46,4 +48,17 @@ fun Context.checkLocationPermission(): Boolean {
         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this,
         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+}
+
+fun Context.checkRecordAudioPermission(): Boolean {
+    return (ActivityCompat.checkSelfPermission(this,
+        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+}
+
+fun SearchHistoryEntity.convertToLotEntity(): LotEntity {
+    return LotEntity(lotName, newAddr, latitude, longitude)
+}
+
+fun LotEntity.convertToLotEntity(): SearchHistoryEntity {
+    return SearchHistoryEntity(parkName, newAddr, latitude, longitude)
 }

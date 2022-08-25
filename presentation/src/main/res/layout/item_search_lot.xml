@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.app.hackathon.domain.entity.LotEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/lot_name_tv"
+            text="@{model.parkName}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/pretendard_medium"
+            android:maxLines="1"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@+id/lot_address_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="여의도 공원 제1 주차장" />
+
+        <TextView
+            android:id="@+id/lot_address_tv"
+            text="@{model.newAddr}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/pretendard_medium"
+            android:maxLines="1"
+            android:textColor="@color/fifthTextColor"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lot_name_tv"
+            tools:text="주소 서울특별시 영등포구 여의공원로 68" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
