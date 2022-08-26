@@ -21,8 +21,8 @@ data class LocationFilterOptionRequest(
     val exTicketOffice: Boolean = true,
     @SerializedName("exRestroom")
     val exRestroom: Boolean = true,
-    @SerializedName("longitude")
-    val longitude: String = "123.1242421",
     @SerializedName("latitude")
-    val latitude: String = "35.1235125"
+    val latitude: String = "123.1242421",
+    @SerializedName("longitude")
+    val longitude: String = "35.1235125"
 )

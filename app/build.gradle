@@ -9,6 +9,14 @@ plugins {
 //properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/choeseungho/iot2022')
+            storePassword 'iot2022'
+            keyAlias 'iot2022'
+            keyPassword 'iot2022'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -25,7 +33,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

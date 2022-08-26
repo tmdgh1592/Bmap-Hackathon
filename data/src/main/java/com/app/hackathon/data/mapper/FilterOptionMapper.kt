@@ -6,10 +6,10 @@ import com.app.hackathon.domain.entity.LocationFilterOptionEntity
 object FilterOptionMapper : Mapper<LocationFilterOptionRequest, LocationFilterOptionEntity> {
 
     override fun LocationFilterOptionRequest.mapToDomainModel(): LocationFilterOptionEntity {
-        return LocationFilterOptionEntity(elevator, wideExit, ramp, accessRoads, wheelchairLift, brailleBlock, exGuidance, exTicketOffice, exRestroom, longitude)
+        return LocationFilterOptionEntity(elevator, wideExit, ramp, accessRoads, wheelchairLift, brailleBlock, exGuidance, exTicketOffice, exRestroom, latitude, longitude)
     }
 
     override fun LocationFilterOptionEntity.mapFromDomainModel(): LocationFilterOptionRequest {
-        return LocationFilterOptionRequest(elevator, wideExit, ramp, accessRoads, wheelchairLift, brailleBlock, exGuidance, exTicketOffice, exRestroom, longitude)
+        return LocationFilterOptionRequest(elevator, wideExit, ramp, accessRoads, wheelchairLift, brailleBlock, exGuidance, exTicketOffice, exRestroom, latitude, longitude)
     }
 }

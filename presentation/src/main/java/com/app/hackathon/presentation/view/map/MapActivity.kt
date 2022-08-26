@@ -289,7 +289,18 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                         override fun onDismiss(filterList: List<FilterOption>) {
                             presenter.updateFilterOptions(filterList)
                             filterOptionAdapter.updateData(filterList)
-                            presenter.requestFilteredLotsByLocation(presenter.lookingLat, presenter.currentLng)
+
+                            if (presenter.isFiltered()) {
+                                presenter.requestFilteredLotsByLocation(
+                                    presenter.lookingLat,
+                                    presenter.lookingLng
+                                )
+                            } else {
+                                presenter.requestAroundLotsByLocation(
+                                    presenter.currentLat,
+                                    presenter.currentLng
+                                )
+                            }
                         }
                     })
                     .show(supportFragmentManager, FilterBottomSheetDialog::class.java.simpleName)
@@ -478,7 +489,18 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                 presenter.updateCurrentLocation(location)
                 moveCamera(currentLat, currentLng)
                 // 현재 좌표를 기반으로 주변 주차장 데이터 불러오기
-                presenter.requestFilteredLotsByLocation(currentLat, currentLng)
+                //presenter.requestFilteredLotsByLocation(currentLat, currentLng)
+                if (presenter.isFiltered()) {
+                    presenter.requestFilteredLotsByLocation(
+                        presenter.lookingLat,
+                        presenter.lookingLng
+                    )
+                }else {
+                    presenter.requestAroundLotsByLocation(
+                        presenter.currentLat,
+                        presenter.currentLng
+                    )
+                }
             }
         }
     }
@@ -517,8 +539,25 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
 
             // 현재 좌표를 기반으로 주변 주차장 데이터 불러오기
             presenter.updateLookingLocation(lat, lng)
-            // presenter.requestAroundLotsByLocation(lat, lng)
-            presenter.requestFilteredLotsByLocation(lat, lng)
+
+            if (!presenter.isClickMoving) {
+
+                // presenter.requestAroundLotsByLocation(lat, lng)
+                //presenter.requestFilteredLotsByLocation(lat, lng)
+                if (presenter.isFiltered()) {
+                    presenter.requestFilteredLotsByLocation(
+                        lat,
+                        lng
+                    )
+                } else {
+                    presenter.requestAroundLotsByLocation(
+                        lat,
+                        lng
+                    )
+                }
+            } else {
+                presenter.isClickMoving = false
+            }
         }
     }
 
@@ -563,6 +602,7 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
 
         Log.d(TAG, "showLotsOnMap: " + lotList.size)
         lotList.forEach { lot ->
+            Log.d(TAG, "showLotsOnMap: " + lot)
             makeMarker(lot)
         }
     }
@@ -577,6 +617,8 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
             map = mNaverMap
             setOnClickListener {
                 Log.d(TAG, "makeMarker: ${lot.latitude}")
+                presenter.isClickMoving = true
+
                 // 마커 클릭시 해당 위치로 중심점 이동
                 val cameraUpdate = CameraUpdate.scrollTo(
                     LatLng(
@@ -585,6 +627,11 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                 ).animate(CameraAnimation.Linear)
                 mNaverMap.moveCamera(cameraUpdate)
 
+                this.subCaptionText = lot.parkName
+
+                // 기존 마커 색상 초기화
+                //resetStateMarkers()
+                // 선택한 마커 색상 강조
                 icon = OverlayImage.fromResource(provideRandomSelectedMarkerImage(lot.parkName))
 
                 showSearchResultContainer()
@@ -605,13 +652,14 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
         activeMarkers.add(marker)
     }
 
+
     // 지도상에 표시되고있는 마커들 지도에서 삭제
     private fun freeActiveMarkers() {
-        activeMarkers.clear()
-
         for (activeMarker in activeMarkers) {
             activeMarker.map = null
         }
+
+        activeMarkers.clear()
     }
 
     private fun isShowSearchResult(): Boolean {

@@ -40,6 +40,9 @@ class MapPresenter @Inject constructor(
     var selectedLot: LotEntity? = null
         private set
 
+    // 클릭해서 이동하고 있는지 여부
+    var isClickMoving = false
+
 
     private val _currentMapMode = MutableLiveData<MapMode>(MapMode.INACTIVE)
     val currentMapMode = _currentMapMode
@@ -142,17 +145,30 @@ class MapPresenter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<LotEntity>>() {
                     override fun onSuccess(searchResultList: List<LotEntity>) {
-                        // Log.d("TAG", "onSuccess: $searchResultList")
+                         Log.d("TAG", "onSuccessFilter: $searchResultList")
                         // 필터링된 주차장 마커를 맵에 띄우기
                         view?.showLotsOnMap(searchResultList)
                     }
 
                     override fun onError(e: Throwable) {
-                        Log.d("TAG", "onError: " + "주변 주차장 데이터 가져오기 실패")
+                        Log.d("TAG", "onError: " + "필터링된 주차장 데이터 가져오기 실패")
                     }
                 })
         )
 
+    }
+
+    fun isFiltered(): Boolean {
+        var isFiltered = false
+
+        filterOptions.forEach {
+            if (it.isChecked.toBoolean()) {
+                isFiltered = true
+                return@forEach
+            }
+        }
+
+        return isFiltered
     }
 
 }

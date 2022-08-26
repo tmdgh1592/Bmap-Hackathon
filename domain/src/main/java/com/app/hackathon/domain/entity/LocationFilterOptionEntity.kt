@@ -10,6 +10,6 @@ data class LocationFilterOptionEntity(
     val exGuidance: Boolean = true,
     val exTicketOffice: Boolean = true,
     val exRestroom: Boolean = true,
+    val latitude: String = "35.1235125",
     val longitude: String = "123.1242421",
-    val latitude: String = "35.1235125"
 )
