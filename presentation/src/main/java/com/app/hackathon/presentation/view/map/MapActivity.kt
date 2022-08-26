@@ -1,6 +1,9 @@
 package com.app.hackathon.presentation.view.map
 
 import android.Manifest
+import com.app.hackathon.presentation.widget.extensions.FlutterExtensions.launchLike
+import com.app.hackathon.presentation.widget.extensions.FlutterExtensions.launchParking
+import com.app.hackathon.presentation.widget.extensions.FlutterExtensions.setupFlutterNavigation
 import android.content.Intent
 import android.location.Location
 import android.os.Looper
@@ -10,26 +13,34 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.UiThread
+import androidx.core.content.ContextCompat
+import com.app.hackathon.domain.entity.FilterOption
 import com.app.hackathon.domain.entity.LotEntity
 import com.app.hackathon.presentation.R
 import com.app.hackathon.presentation.base.BaseActivity
 import com.app.hackathon.presentation.databinding.ActivityMapBinding
 import com.app.hackathon.presentation.presenter.map.MapContract
 import com.app.hackathon.presentation.presenter.map.MapPresenter
+import com.app.hackathon.presentation.view.report.ReportActivity
 import com.app.hackathon.presentation.view.search.TextSearchActivity
 import com.app.hackathon.presentation.view.search.VoiceSearchActivity
 import com.app.hackathon.presentation.widget.Constants
+import com.app.hackathon.presentation.widget.Constants.ADDRESS
 import com.app.hackathon.presentation.widget.Constants.LATITUDE
 import com.app.hackathon.presentation.widget.Constants.LONGITUDE
-import com.app.hackathon.presentation.widget.extensions.checkLocationPermission
-import com.app.hackathon.presentation.widget.extensions.loadImage
-import com.app.hackathon.presentation.widget.extensions.setStatusBarTransparent
-import com.app.hackathon.presentation.widget.extensions.statusBarHeight
+import com.app.hackathon.presentation.widget.adapter.FilterOptionAdapter
+import com.app.hackathon.presentation.widget.extensions.*
+import com.app.hackathon.presentation.widget.utils.PreferenceManager
+import com.app.hackathon.presentation.widget.utils.PreferenceManager.Companion.COMPANY_KEY
+import com.app.hackathon.presentation.widget.utils.PreferenceManager.Companion.HOME_KEY
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
+import com.google.gson.Gson
 import com.gun0912.tedpermission.rx3.TedPermission
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.LocationOverlay
+import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,25 +53,90 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
     @Inject
     lateinit var presenter: MapPresenter
 
+    @Inject
+    lateinit var preferenceManager: PreferenceManager
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationSource: FusedLocationSource
     private lateinit var mNaverMap: NaverMap
     private lateinit var activityLauncher: ActivityResultLauncher<Intent>
+    private lateinit var filterOptionAdapter: FilterOptionAdapter
+    private var activeMarkers: ArrayList<Marker> = arrayListOf()
 
     companion object {
         val TAG = MapActivity::class.simpleName
     }
 
+    override fun onStart() {
+        super.onStart()
+//        flutterNavigationTo(UI_INITIALIZE) { call, res ->
+//
+//        }
+
+        binding.editBtn.setOnClickListener {
+            setupFlutterNavigation()
+            launchLike(
+                onLaunchSearchAddress = { address ->
+                    activityLauncher.launch(
+                        Intent(
+                            this@MapActivity,
+                            TextSearchActivity::class.java
+                        )
+                            .putExtra(LATITUDE, presenter.currentLat)
+                            .putExtra(LONGITUDE, presenter.currentLng)
+                            .putExtra(ADDRESS, address)
+                    )
+                },
+                onUpdateLikeList = { likes ->
+                    with(binding) {
+                        val homeInfo = likes[0]
+                        val companyInfo = likes[1]
+
+                        if (homeInfo.likeName != "집")
+                            preferenceManager.setString(HOME_KEY, homeInfo.likeName)
+                        if (companyInfo.likeName != "회사")
+                            preferenceManager.setString(COMPANY_KEY, companyInfo.likeName)
+
+                        setHomeCompanyName()
+                    }
+                }
+            )
+        }
+    }
 
     override fun initActivity() {
         // 상태바 투명화
         setScreen()
+
+        // overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+
         presenter.onAttach(this)
 
         setActivityResultLauncher() // 액티비티 런처 설정
         setScrollTopDetection() // 스크롤뷰 스크롤 설정
+        setFilterOptions() // 필터 리스트 설정
         setMap() // 맵 관련 함수 설정
         setClickListener() // 클릭 리스너 설정
+        binding.setHomeCompanyName() // 집, 회사 주소 설정
+    }
+
+    private fun setFilterOptions() {
+        filterOptionAdapter = FilterOptionAdapter(
+            mutableListOf(),
+            object : FilterOptionAdapter.OnClickListener {
+                override fun onClickItem(item: FilterOption) {
+                    // 태그 클릭시 해당 태그 제거
+                    presenter.filterOptions.map {
+                        if (it.optionName == item.optionName) {
+                            it.isChecked *= -1
+                        }
+                        it
+                    }
+
+                    filterOptionAdapter.updateData(presenter.filterOptions)
+                }
+            })
+        binding.searchResultContainer.filterOptionRv.adapter = filterOptionAdapter
     }
 
     private fun setScreen() {
@@ -75,6 +151,39 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
     }
 
 
+    private fun ActivityMapBinding.setHomeCompanyName() {
+        val homeName = preferenceManager.getString(HOME_KEY) ?: ""
+        val companyName = preferenceManager.getString(COMPANY_KEY) ?: ""
+
+        if (homeName.isNotEmpty()) {
+            homeLotNameTv.text = homeName
+            homeLotNameTv.visibility = View.VISIBLE
+            homeLotTitleTv.setTextColor(
+                ContextCompat.getColor(
+                    this@MapActivity,
+                    R.color.primaryTextColor
+                )
+            )
+            homeAddTv.visibility = View.GONE
+            homeAddBtn.visibility = View.GONE
+            homeIconIv.visibility = View.VISIBLE
+        }
+        if (companyName.isNotEmpty()) {
+            companyLotNameTv.text = companyName
+            companyLotNameTv.visibility = View.VISIBLE
+            companyLotTitleTv.setTextColor(
+                ContextCompat.getColor(
+                    this@MapActivity,
+                    R.color.primaryTextColor
+                )
+            )
+            companyAddTv.visibility = View.GONE
+            companyAddBtn.visibility = View.GONE
+            companyIconIv.visibility = View.VISIBLE
+        }
+    }
+
+
     private fun setActivityResultLauncher() {
         activityLauncher = registerForActivityResult(
             StartActivityForResult()
@@ -84,16 +193,45 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                 // RESULT_OK일 때 실행할 코드...
 
                 val searchResult: LotEntity =
-                    data?.getStringExtra(Constants.SEARCH_RESULT) as LotEntity
+                    data?.getSerializableExtra(Constants.SEARCH_RESULT) as LotEntity
                 Log.d(TAG, "setActivityResultLauncher: $searchResult")
 
+                // 현재 보고 있는 주차장 선택
+                presenter.selectLot(searchResult)
+
+                showSearchResultContainer()
                 updateSearchResult(searchResult.parkName) // 검색 결과를 EditText에 입력
+                binding.searchResultContainer.parkName.text = searchResult.parkName // 검색 결과 컨테이너값 변경
+                binding.searchResultContainer.searchQueryTv.text = searchResult.parkName
+                Glide.with(this@MapActivity).load(provideRandomParkStateImage(searchResult.parkName)).into(binding.searchResultContainer.lotStateIv)
+                binding.searchResultContainer.lotLeftCountTv.text = "${searchResult.nowParkCount} / ${searchResult.maxParkCount}"
+                binding.searchResultContainer.lotStateTv.text = searchResult.parkState
+
+                // 카메라 해당 위치로 이동
+                val cameraUpdate = CameraUpdate.scrollTo(
+                    LatLng(searchResult.latitude.toDouble(), searchResult.longitude.toDouble())
+                ).animate(CameraAnimation.Fly)
+                mNaverMap.moveCamera(cameraUpdate)
             }
         }
     }
 
     private fun updateSearchResult(searchResult: String) {
-        binding.searchEditText.setText(searchResult)
+        // 검색 결과 텍스트뷰 갱신
+        binding.searchResultContainer.searchQueryTv.text = (searchResult)
+    }
+
+    private fun showSearchResultContainer() {
+        binding.searchResultContainer.root.visibility = View.VISIBLE
+        binding.backBtn.visibility = View.VISIBLE
+        binding.bottomContainer.visibility = View.GONE
+    }
+
+    private fun showSearchContainer() {
+        binding.searchResultContainer.root.visibility = View.GONE
+        binding.backBtn.visibility = View.GONE
+        binding.bottomContainer.visibility = View.VISIBLE
+        binding.searchResultContainer.searchQueryTv.text = null
     }
 
     private fun setClickListener() {
@@ -118,12 +256,62 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
                         .putExtra(LONGITUDE, presenter.currentLng)
                 )
             }
+
+            searchResultContainer.searchVoiceBtn.setOnClickListener {
+                activityLauncher.launch(
+                    Intent(
+                        this@MapActivity,
+                        VoiceSearchActivity::class.java
+                    )
+                )
+            }
+
+            searchResultContainer.searchQueryTv.setOnClickListener {
+                activityLauncher.launch(
+                    Intent(
+                        this@MapActivity,
+                        TextSearchActivity::class.java
+                    )
+                        .putExtra(LATITUDE, presenter.currentLat)
+                        .putExtra(LONGITUDE, presenter.currentLng)
+                        .putExtra("fromVoice", false)
+                )
+            }
+
+            backBtn.setOnClickListener {
+                showSearchContainer()
+            }
+
+            searchResultContainer.filterBtn.setOnClickListener {
+                FilterBottomSheetDialog.newInstance(
+                    presenter.filterOptions,
+                    object : FilterBottomSheetDialog.OnDismissListener {
+                        override fun onDismiss(filterList: List<FilterOption>) {
+                            presenter.updateFilterOptions(filterList)
+                            filterOptionAdapter.updateData(filterList)
+                            presenter.requestFilteredLotsByLocation(presenter.lookingLat, presenter.currentLng)
+                        }
+                    })
+                    .show(supportFragmentManager, FilterBottomSheetDialog::class.java.simpleName)
+            }
+
+            // 여기 추가
+            searchResultContainer.lotDetailBtn.setOnClickListener {
+                presenter.selectedLot?.let {
+                    setupFlutterNavigation()
+                    launchParking(Gson().toJson(it), onLaunchReport = {
+                        startActivity(Intent(this@MapActivity, ReportActivity::class.java))
+                    })
+                }
+            }
         }
     }
 
     // 네이버맵 관련 설정 함수들
     private fun setMap() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         requestPermissions() // 권한 요청
         initMapView() // 네이버 맵 자체 설정 로직
         setUpdateLocationListener()
@@ -250,16 +438,6 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
         // 트래킹 모드 설정
 //        setTrackingMode(mNaverMap)
 
-        // 빨간색 표시 마커 (네이버맵 현재 가운데에 항상 위치)
-//        val marker = Marker()
-//        marker.position = LatLng(
-//            naverMap.cameraPosition.target.latitude,
-//            naverMap.cameraPosition.target.longitude
-//        )
-//        marker.icon = OverlayImage.fromResource(R.drawable.ic_favorite)
-//        marker.map = naverMap
-
-
         // 카메라의 움직임에 대한 이벤트 리스너 인터페이스.
         // 참고 : https://navermaps.github.io/android-map-sdk/reference/com/naver/maps/map/package-summary.html
 //        setCameraChangeListener(naverMap)
@@ -274,30 +452,34 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
         if (!checkLocationPermission()) return
 
         // 사용자 현재 위치 받아오기
-//        var currentLocation: Location?
+        var currentLocation: Location
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
 
             Log.d(TAG, "onMapReady: 사용자 현재 위치")
 
-//            currentLocation = location
-//            val currentLat = currentLocation!!.latitude
-//            val currentLng = currentLocation!!.longitude
-            val currentLat = location!!.latitude
-            val currentLng = location.longitude
+            if (location != null) {
+                Log.d(TAG, "onMapReady: $location")
+
+                currentLocation = location
+                val currentLat = currentLocation.latitude
+                val currentLng = currentLocation.longitude
 
 
-            // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
-            // 파랑색 점, 현재 위치 표시
-            mNaverMap.locationOverlay.run {
-                isVisible = true
-                position = LatLng(currentLat, currentLng)
-                circleRadius = 0
-                iconWidth = LocationOverlay.SIZE_AUTO
-                iconHeight = LocationOverlay.SIZE_AUTO
+                // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
+                // 파랑색 점, 현재 위치 표시
+                mNaverMap.locationOverlay.run {
+                    isVisible = true
+                    position = LatLng(currentLat, currentLng)
+                    circleRadius = 0
+                    iconWidth = LocationOverlay.SIZE_AUTO
+                    iconHeight = LocationOverlay.SIZE_AUTO
+                }
+
+                presenter.updateCurrentLocation(location)
+                moveCamera(currentLat, currentLng)
+                // 현재 좌표를 기반으로 주변 주차장 데이터 불러오기
+                presenter.requestFilteredLotsByLocation(currentLat, currentLng)
             }
-
-
-            moveCamera(currentLat, currentLng)
         }
     }
 
@@ -331,7 +513,12 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
             val lat = naverMap.cameraPosition.target.latitude
             val lng = naverMap.cameraPosition.target.longitude
 
+            Log.d(TAG, "setCameraIdleListener: naver map Idle")
+
             // 현재 좌표를 기반으로 주변 주차장 데이터 불러오기
+            presenter.updateLookingLocation(lat, lng)
+            // presenter.requestAroundLotsByLocation(lat, lng)
+            presenter.requestFilteredLotsByLocation(lat, lng)
         }
     }
 
@@ -348,7 +535,7 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
     private fun setUpdateLocationListener() {
         val locationRequest = LocationRequest.create()
         locationRequest.run {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY //높은 정확도
+            //priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY //높은 정확도
             interval = 1000 //1초에 한번씩 GPS 요청
         }
 
@@ -370,6 +557,66 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
         )
     }
 
+    override fun showLotsOnMap(lotList: List<LotEntity>) {
+        // 기존 마커를 모두 제거한다
+        freeActiveMarkers()
+
+        Log.d(TAG, "showLotsOnMap: " + lotList.size)
+        lotList.forEach { lot ->
+            makeMarker(lot)
+        }
+    }
+
+    private fun makeMarker(lot: LotEntity) {
+        val marker = Marker().apply {
+            position = LatLng(lot.latitude.toDouble(), lot.longitude.toDouble())
+            icon =
+                OverlayImage.fromResource(provideRandomUnselectedMarkerImage(lot.parkName))
+            width = Marker.SIZE_AUTO
+            height = Marker.SIZE_AUTO
+            map = mNaverMap
+            setOnClickListener {
+                Log.d(TAG, "makeMarker: ${lot.latitude}")
+                // 마커 클릭시 해당 위치로 중심점 이동
+                val cameraUpdate = CameraUpdate.scrollTo(
+                    LatLng(
+                        lot.latitude.toDouble(), lot.longitude.toDouble()
+                    )
+                ).animate(CameraAnimation.Linear)
+                mNaverMap.moveCamera(cameraUpdate)
+
+                icon = OverlayImage.fromResource(provideRandomSelectedMarkerImage(lot.parkName))
+
+                showSearchResultContainer()
+                binding.searchResultContainer.searchQueryTv.text = lot.parkName
+                binding.searchResultContainer.parkName.text = lot.parkName
+                Glide.with(this@MapActivity).load(provideRandomParkStateImage(lot.parkName)).into(binding.searchResultContainer.lotStateIv)
+                binding.searchResultContainer.lotLeftCountTv.text = "${lot.nowParkCount} / ${lot.maxParkCount}"
+                binding.searchResultContainer.lotStateTv.text = lot.parkState
+
+                presenter.selectLot(lot)
+
+                Log.d(TAG, "makeMarker: " + Gson().toJson(lot))
+
+                return@setOnClickListener false
+            }
+        }
+
+        activeMarkers.add(marker)
+    }
+
+    // 지도상에 표시되고있는 마커들 지도에서 삭제
+    private fun freeActiveMarkers() {
+        activeMarkers.clear()
+
+        for (activeMarker in activeMarkers) {
+            activeMarker.map = null
+        }
+    }
+
+    private fun isShowSearchResult(): Boolean {
+        return binding.searchResultContainer.root.visibility == View.VISIBLE
+    }
 
     // 좌표 -> 주소 변환
 //    private fun getAddress(lat: Double, lng: Double): String {
@@ -394,4 +641,12 @@ class MapActivity(override val layoutResId: Int = R.layout.activity_map) :
 //        return addressResult
 //    }
 
+
+    override fun onBackPressed() {
+        if (isShowSearchResult()) {
+            showSearchContainer()
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

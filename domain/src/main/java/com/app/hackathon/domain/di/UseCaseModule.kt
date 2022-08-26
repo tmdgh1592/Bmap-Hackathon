@@ -1,11 +1,9 @@
 package com.app.hackathon.domain.di
 
 import com.app.hackathon.domain.repository.ParkingLotRepository
+import com.app.hackathon.domain.repository.ReportRepository
 import com.app.hackathon.domain.repository.SearchHistoryRepository
-import com.app.hackathon.domain.usecase.AddSearchHistoryUseCase
-import com.app.hackathon.domain.usecase.GetParkingLotUseCase
-import com.app.hackathon.domain.usecase.GetSearchHistoryUseCase
-import com.app.hackathon.domain.usecase.RemoveSearchHistoryUseCase
+import com.app.hackathon.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,6 +36,24 @@ object UseCaseModule {
     @Singleton
     fun provideGetParkingLotUseCase(repository: ParkingLotRepository): GetParkingLotUseCase {
         return GetParkingLotUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAroundLotUseCase(repository: ParkingLotRepository): GetAroundLotUseCase {
+        return GetAroundLotUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSendReportUseCase(repository: ReportRepository): SendReportUseCase {
+        return SendReportUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetFilteredLotUseCase(repository: ParkingLotRepository): GetFilteredLotUseCase {
+        return GetFilteredLotUseCase(repository)
     }
 
 }

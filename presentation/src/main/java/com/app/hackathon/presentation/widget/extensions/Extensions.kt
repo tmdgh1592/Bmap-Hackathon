@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.content.res.Resources.getSystem
 import android.os.Build
 import android.view.WindowManager
 import android.widget.ImageView
@@ -11,7 +13,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowCompat
 import com.app.hackathon.domain.entity.LotEntity
 import com.app.hackathon.domain.entity.SearchHistoryEntity
+import com.app.hackathon.presentation.R
 import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 fun Activity.setStatusBarTransparent() {
     window.apply {
@@ -56,9 +60,75 @@ fun Context.checkRecordAudioPermission(): Boolean {
 }
 
 fun SearchHistoryEntity.convertToLotEntity(): LotEntity {
-    return LotEntity(lotName, newAddr, latitude, longitude)
+    return LotEntity(parkCode, lotName, newAddr, latitude, longitude)
 }
 
 fun LotEntity.convertToLotEntity(): SearchHistoryEntity {
-    return SearchHistoryEntity(parkName, newAddr, latitude, longitude)
+    return SearchHistoryEntity(parkCode, parkName, newAddr, latitude, longitude)
+}
+
+
+// 스크린 높이 구하기
+fun getWindowHeight(): Int {
+    return getSystem().displayMetrics.heightPixels
+}
+
+// 스크린 너비 구하기
+fun getWindowWidth(): Int {
+    return getSystem().displayMetrics.widthPixels
+}
+
+fun Boolean.toInt(): Int{
+    return if (this) {
+        1
+    } else {
+        -1
+    }
+}
+
+fun Int.toBoolean(): Boolean {
+    return this == 1
+}
+
+// 주차장 이름 길이를 바탕으로 랜덤으로 가져옴
+fun provideRandomUnselectedMarkerImage(parkName: String): Int {
+    return when (parkName.length) {
+        in 0..6 -> {
+            R.drawable.img_unselected_green_lot
+        }
+        in 7..11 -> {
+            R.drawable.img_unselected_yellow_lot
+        }
+        else -> {
+            R.drawable.img_unselected_red_lot
+        }
+    }
+}
+
+fun provideRandomSelectedMarkerImage(parkName: String): Int {
+    return when (parkName.length) {
+        in 0..6 -> {
+            R.drawable.img_selected_green_lot
+        }
+        in 7..11 -> {
+            R.drawable.img_selected_yellow_lot
+        }
+        else -> {
+            R.drawable.img_selected_red_lot
+        }
+    }
+}
+
+fun provideRandomParkStateImage(parkName: String): Int {
+    return when (parkName.length) {
+        in 0..6 -> {
+            R.drawable.ic_green_circle
+        }
+        in 7..11 -> {
+            R.drawable.ic_yellow_circle
+        }
+        else -> {
+            R.drawable.ic_red_circle
+        }
+    }
 }

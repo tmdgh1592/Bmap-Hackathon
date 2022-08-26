@@ -3,6 +3,7 @@ package com.app.hackathon.presentation.view.search
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import com.app.hackathon.domain.entity.LotEntity
 import com.app.hackathon.domain.entity.SearchHistoryEntity
@@ -38,23 +39,39 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
         setScreen()
 
         presenter.onAttach(this)
-        presenter.setLatLng(
-            intent.getDoubleExtra(LATITUDE, 0.0),
-            intent.getDoubleExtra(LONGITUDE, 0.0)
-        )
+
+        val isFromVoice = intent.getBooleanExtra("fromVoice", false)
+        if (!isFromVoice) {
+            presenter.setLatLng(
+                intent.getDoubleExtra(LATITUDE, 0.0),
+                intent.getDoubleExtra(LONGITUDE, 0.0)
+            )
+        }
+
         presenter.requestSearchHistory()
         presenter.setQuerySubject()
 
         setClickListener() // 클릭 리스너 설정
         initView() // 뷰 설정
-        setVoiceQuery() // 음성 인식으로 검색한 경우
+        setVoiceQuery(isFromVoice) // 음성 인식으로 검색한 경우
     }
 
-    private fun setVoiceQuery() {
-        val voiceQuery: String? = intent.getStringExtra(VOICE_QUERY)
-        voiceQuery.let { query ->
-            binding.searchEditText.setText(query)
-            //presenter.requestLotList(query!!)
+    /*override fun onStart() {
+        super.onStart()
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(1000)
+            launchLikeFinished("주소입니다")
+            // finish()
+        }
+    }*/
+
+    private fun setVoiceQuery(isFromVoice: Boolean) {
+        if (isFromVoice) {
+            val voiceQuery: String? = intent.getStringExtra(VOICE_QUERY)
+            voiceQuery.let { query ->
+                binding.searchEditText.setText(query)
+                presenter.requestLotList(query!!)
+            }
         }
     }
 
@@ -93,8 +110,8 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
                     finishWithSearchResult(item)
                 }
             })
-        historyRv.adapter = searchLotAdapter
-        historyRv.addItemDecoration(TopItemDecorator(22))
+        parkingLotRv.adapter = searchLotAdapter
+        parkingLotRv.addItemDecoration(TopItemDecorator(22))
     }
 
 
@@ -109,11 +126,7 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
             ) {
                 val query = searchQuery.toString()
                 presenter.requestLotList(query)
-
-                // 두 글자 이상 검색어이면 검색어 데이터 바인딩
-                if (query.length > 1) {
-                    searchQueryTv.text = query
-                }
+                searchQueryTv.text = query
             }
 
             override fun beforeTextChanged(
@@ -164,13 +177,15 @@ class TextSearchActivity(override val layoutResId: Int = R.layout.activity_text_
     }
 
     override fun showSearchHistoryList() {
-        binding.historyRv.visibility = View.VISIBLE
         binding.parkingLotResultContainer.visibility = View.GONE
+        binding.historyRv.visibility = View.VISIBLE
+        Log.d("TAG", "showSearchHistoryList: 1")
     }
 
     override fun showSearchResultList() {
-        binding.parkingLotResultContainer.visibility = View.VISIBLE
         binding.historyRv.visibility = View.GONE
+        binding.parkingLotResultContainer.visibility = View.VISIBLE
+        Log.d("TAG", "showSearchHistoryList: 2")
     }
 
     override fun showErrorToast(errorMessage: String) {

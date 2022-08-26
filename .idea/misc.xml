@@ -36,6 +36,31 @@
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_search_history.xml" value="0.3640625" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/item_search_lot.xml" value="0.33" />
         <entry key="..\:/android_practice/Bmap/presentation/src/main/res/layout/layout_search_result_bottom_sheet.xml" value="0.25" />
+        <entry key="presentation/src/main/res/drawable/bg_always_included_option.xml" value="0.1665" />
+        <entry key="presentation/src/main/res/drawable/bg_checked_report_type.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/bg_favorite_lot.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/bg_favorite_lot_item.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/bg_filter_option_bottom_sheet_dialog.xml" value="0.1665" />
+        <entry key="presentation/src/main/res/drawable/bg_filter_option_item.xml" value="0.1665" />
+        <entry key="presentation/src/main/res/drawable/bg_report_edit_text.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/bg_report_type.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/bg_search_edit_text.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/bg_search_result_bottom_sheet.xml" value="0.1665" />
+        <entry key="presentation/src/main/res/drawable/bg_select_btn.xml" value="0.1665" />
+        <entry key="presentation/src/main/res/drawable/bg_unchecked_report_type.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/bg_yellow_btn.xml" value="0.214" />
+        <entry key="presentation/src/main/res/drawable/img_selected_green_lot.xml" value="0.179" />
+        <entry key="presentation/src/main/res/layout/activity_map.xml" value="0.2937118530273438" />
+        <entry key="presentation/src/main/res/layout/activity_report.xml" value="0.33108774820963544" />
+        <entry key="presentation/src/main/res/layout/activity_splash.xml" value="0.25898946126302075" />
+        <entry key="presentation/src/main/res/layout/activity_text_search.xml" value="0.2185333251953125" />
+        <entry key="presentation/src/main/res/layout/activity_voice_search.xml" value="0.3079710144927536" />
+        <entry key="presentation/src/main/res/layout/fragment_filter_bottom_sheet_dialog.xml" value="0.30932971014492755" />
+        <entry key="presentation/src/main/res/layout/fragment_filter_option_bottom_sheet_dialog_list_dialog.xml" value="0.30932971014492755" />
+        <entry key="presentation/src/main/res/layout/fragment_filter_option_bottom_sheet_dialog_list_dialog_item.xml" value="0.30932971014492755" />
+        <entry key="presentation/src/main/res/layout/item_filter_option.xml" value="0.30932971014492755" />
+        <entry key="presentation/src/main/res/layout/item_search_lot.xml" value="0.30932971014492755" />
+        <entry key="presentation/src/main/res/layout/layout_search_result_bottom_sheet.xml" value="0.30932971014492755" />
       </map>
     </option>
   </component>

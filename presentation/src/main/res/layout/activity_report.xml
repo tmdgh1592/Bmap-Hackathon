@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".view.report.ReportActivity">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="20dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="신고하기"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/borderGray"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+        <TextView
+            android:id="@+id/report_type_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="신고유형"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+        <!-- 오류 수정 제안 -->
+
+        <LinearLayout
+            android:id="@+id/error_report_btn"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_checked_report_type"
+            android:checked="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/car_report_btn"
+            app:layout_constraintTop_toBottomOf="@+id/report_type_title_tv">
+
+            <ImageView
+                android:id="@+id/error_report_check_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_check" />
+
+            <TextView
+                android:id="@+id/error_report_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="오류 수정 제안"
+                android:textColor="@color/blue"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+        <!-- 차량 신고 -->
+        <LinearLayout
+            android:id="@+id/car_report_btn"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="12.5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bg_unchecked_report_type"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/error_report_btn"
+            app:layout_constraintLeft_toRightOf="@+id/error_report_btn"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/error_report_btn">
+
+            <ImageView
+                android:id="@+id/car_report_check_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_check"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/car_report_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="차량 신고"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/content_write_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="내용작성"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/error_report_btn" />
+
+        <EditText
+            android:id="@+id/report_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_report_edit_text"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="start|top"
+            android:hint="내용을 작성해 주세요."
+            android:padding="20dp"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/gray50"
+            android:textCursorDrawable="@drawable/cursor_edit_text"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/info_title_tv"
+            app:layout_constraintTop_toBottomOf="@+id/content_write_title_tv" />
+
+        <TextView
+            android:id="@+id/info_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="안심하세요!"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@+id/info_content_tv"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/info_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:lineHeight="22dp"
+            android:text="장애인 전용 주차구역에 허가를 받지 않은 차량이 주차되어 있나요?  비맵 서비스 지역 내에서는 IoT 공공도시데이터를 활용해 자동 신고 처리됩니다."
+            android:textAlignment="textStart"
+            android:textColor="@color/thirdTextColor"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/done_btn" />
+
+        <TextView
+            android:id="@+id/done_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_yellow_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:gravity="center"
+            android:paddingVertical="19dp"
+            android:text="신고 완료"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/check_lottie_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/anim_yellow_check"
+            app:lottie_autoPlay="false" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

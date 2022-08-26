@@ -28,6 +28,16 @@
             android:layout_height="match_parent"
             tools:background="@color/white">
 
+            <ImageView
+                android:id="@+id/back_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="12dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:src="@drawable/ic_result_back"/>
+
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/locator_barrier"
                 android:layout_width="match_parent"
@@ -235,6 +245,7 @@
                                     tools:text="우영아파트주차장" />
 
                                 <TextView
+                                    android:id="@+id/home_add_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="8dp"
@@ -311,6 +322,7 @@
                                     tools:text="서울시 컴퍼니" />
 
                                 <TextView
+                                    android:id="@+id/company_add_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="8dp"
@@ -442,7 +454,7 @@
             <include
                 android:id="@+id/search_result_container"
                 layout="@layout/layout_search_result_bottom_sheet"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,5 +1,6 @@
 package com.app.hackathon.presentation.widget.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,7 @@ class SearchLotAdapter(
     fun updateData(newLotList: List<LotEntity>) {
         lotList.clear()
         lotList.addAll(newLotList)
+        Log.d("TAG", "onSuccess2: "+lotList.size)
         notifyDataSetChanged()
     }
 

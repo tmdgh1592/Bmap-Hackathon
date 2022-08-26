@@ -3,6 +3,7 @@ package com.app.hackathon.data.di
 import com.app.hackathon.data.BuildConfig
 import com.app.hackathon.data.Constants
 import com.app.hackathon.data.api.LotApiService
+import com.app.hackathon.data.api.ReportApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +56,12 @@ object ApiModule {
     @Singleton
     fun provideLotApiService(retrofit: Retrofit): LotApiService {
         return retrofit.create(LotApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideReportApiService(retrofit: Retrofit): ReportApiService {
+        return retrofit.create(ReportApiService::class.java)
     }
 
 }

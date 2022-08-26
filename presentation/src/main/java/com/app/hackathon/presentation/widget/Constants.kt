@@ -9,4 +9,7 @@ object Constants {
     const val VOICE_QUERY = "voice_query"
     const val LATITUDE = "latitude"
     const val LONGITUDE = "longitude"
+    const val ADDRESS = "address"
+    const val FILTER_OPTIONS_BUNDLE = "filter_options_bundle"
+    const val FILTER_OPTIONS = "filter_options"
 }

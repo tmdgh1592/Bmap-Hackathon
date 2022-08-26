@@ -16,4 +16,6 @@
     <color name="gray50">#BCBCBE</color>
     <color name="bgPrimaryColor">#E6E6E7</color>
     <color name="borderGray">#D4D4D9</color>
+    <color name="blue">#3182F6</color>
+    <color name="uncheckedColor">#BCBCBC</color>
 </resources>

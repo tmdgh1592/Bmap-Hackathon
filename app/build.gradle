@@ -5,22 +5,22 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     compileSdk 32
 
     defaultConfig {
         applicationId "com.app.hackathon.bmap"
-        minSdk 21
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        resValue "string", "naver_map_client_id", properties["naver_map_client_id"]
+//        resValue "string", "naver_map_client_id", properties["naver_map_client_id"]
     }
 
     buildTypes {
@@ -39,10 +39,20 @@ android {
     dataBinding {
         enabled true
     }
+    android {
+        buildTypes {
+            profile {
+                initWith debug
+            }
+        }
+    }
 }
 
 dependencies {
-    
+    debugImplementation 'bmap.ui:flutter_debug:1.0'
+    profileImplementation 'bmap.ui:flutter_profile:1.0'
+    releaseImplementation 'bmap.ui:flutter_release:1.0'
+
     implementation project(path: ':presentation')
     implementation project(path: ':data')
     implementation project(path: ':domain')

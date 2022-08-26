@@ -124,6 +124,7 @@ class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voic
                     ).putExtra(VOICE_QUERY, matches?.get(0))
                         .putExtra(Constants.LATITUDE, currentLat)
                         .putExtra(Constants.LONGITUDE, currentLng)
+                        .putExtra("fromVoice", true)
                 )
                 finish()
             }
@@ -150,7 +151,17 @@ class VoiceSearchActivity(override val layoutResId: Int = R.layout.activity_voic
 
     override fun onDestroy() {
         super.onDestroy()
-        mRecognizer?.cancel()
-        mRecognizer?.destroy()
+        releaseRecognizer()
+    }
+
+
+    private fun releaseRecognizer() {
+        try {
+            mRecognizer?.destroy()
+            mRecognizer = null
+        } catch (e: IllegalArgumentException) { // fix Service not registered: android.speech.SpeechRecognizer$Connection
+            e.printStackTrace()
+            Log.e("TAG", e.message!!)
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.app.hackathon.data.response
+package com.app.hackathon.data.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -113,4 +113,11 @@ data class LotRequest(
     val latitude: String,
     @SerializedName("longitude")
     val longitude: String,
+)
+
+data class AroundLotRequest(
+    @SerializedName("latitude")
+    val latitude: String,
+    @SerializedName("longitude")
+    val longitude: String
 )

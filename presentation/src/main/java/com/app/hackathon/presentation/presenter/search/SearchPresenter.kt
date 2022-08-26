@@ -27,8 +27,8 @@ class SearchPresenter @Inject constructor(
 
     private var view: SearchContract.View? = null
     private val disposables = CompositeDisposable()
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
+    private var latitude: Double = 126.9898441
+    private var longitude: Double = 37.5685262
 
     private val querySubject: PublishSubject<String> = PublishSubject.create()
 
@@ -59,11 +59,15 @@ class SearchPresenter @Inject constructor(
                     override fun onSuccess(searchHistories: List<SearchHistoryEntity>) {
                         view?.showLoading(false)
                         view?.showSearchHistory(searchHistories)
+                        view?.showSearchHistoryList()
+                        Log.d("TAG", "onSuccessHistory: "+searchHistories.size)
                     }
 
                     override fun onError(e: Throwable) {
                         view?.showLoading(false)
                         view?.showSearchHistory(emptyList())
+                        view?.showSearchHistoryList()
+                        Log.d("TAG", "onErrorHistory: ${e.message}")
                     }
                 })
         )
@@ -114,9 +118,12 @@ class SearchPresenter @Inject constructor(
     // View가 Presenter에게 주차장 리스트 요청
     override fun requestLotList(query: String) {
         // 두 글자 미만이면 검색 히스토리를 보여준다
-        if (query.length < 2)
+        if (query.length < 2) {
             view?.showSearchHistoryList()
+            return
+        }
 
+        view?.showSearchResultList()
         querySubject.onNext(query)
     }
 
@@ -141,7 +148,7 @@ class SearchPresenter @Inject constructor(
 
     // 서버로부터 주차장 리스트를 불러온다.
     private fun loadLotList(query: String) {
-        if (latitude == 0.0 && longitude == 0.0) {
+        if (latitude == 0.0 || longitude == 0.0) {
             // 위도 경도가 설정되어 있지 않으면 에러처리
             querySubject.onError(Exception("Latitude and Longitude are not set yet."))
         }
@@ -153,7 +160,11 @@ class SearchPresenter @Inject constructor(
                 .subscribeWith(object : DisposableSingleObserver<List<LotEntity>>() {
                     override fun onSuccess(searchResultList: List<LotEntity>) {
                         view?.showLoading(false)
-                        view?.refreshSearchResult(searchResultList) // 데이터를 불러오면 View의 검색 결과 갱신
+                        // 데이터를 불러오면 View의 검색 결과 갱신
+                        view?.refreshSearchResult(searchResultList.filter {
+                            it.newAddr.isNotEmpty()
+                        })
+                        Log.d("TAG", "onSuccess: "+searchResultList.size)
                         view?.showSearchResultList() // 검색 결과 리사이클러뷰를 보여준다
                     }
 

@@ -2,6 +2,7 @@ package com.app.hackathon.domain.entity
 
 
 data class SearchHistoryEntity(
+    val parkCode: String,
     val lotName: String,
     // 도로명 주소
     val newAddr: String,
