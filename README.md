@@ -124,6 +124,6 @@ RxKotlin, Coroutine, Retrofit, Room, Dagger Hilt, Glide, Lottie
 
 📑**Notion**: https://lucky-crater-a5b.notion.site/Unithon-8th-41966fe84a2948d6900e80d93ffb8c51
 
-📑**참가후기**: https://itstory1592.tistory.com/77
+📑**참가후기**: https://itstory1592.tistory.com/78
 
 <br>
